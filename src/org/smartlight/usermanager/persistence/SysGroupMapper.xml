@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.smartlight.usermanager.persistence.SysGroupMapper" >
+  <resultMap id="BaseResultMap" type="org.smartlight.usermanager.model.SysGroup" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="is_show" property="show" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, title, status, sort, is_show
+  </sql>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select distinct a.id, a.name, a.title, a.status, a.sort, a.is_show
+    from sys_group a,sys_access b,sys_node c,sys_role_user d
+    where a.id=c.group_id and c.id=b.node_id 
+    and b.role_id=d.role_id and d.user_id = #{id,jdbcType=INTEGER}
+    order by a.sort
+  </select>
+      <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" /> 
+    from sys_group
+  </select>
+  <select id="selectForGrant" resultMap="BaseResultMap">
+    select distinct a.id, a.name, a.title, a.status, a.sort, d.role_id is_show
+    from sys_group a left outer join 
+    (select b.role_id,c.group_id from sys_access b,sys_node c where b.node_id=c.id) d 
+    on a.id=d.group_id and d.role_id=#{roleId,jdbcType=INTEGER}
+     order by a.sort
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_group
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.smartlight.usermanager.model.SysGroup" >
+    insert into sys_group (id, name, title, 
+      status, sort, is_show)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{show,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="org.smartlight.usermanager.model.SysGroup" >
+    insert into sys_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="show != null" >
+        is_show,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="show != null" >
+        #{show,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.smartlight.usermanager.model.SysGroup" >
+    update sys_group
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="show != null" >
+        is_show = #{show,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.smartlight.usermanager.model.SysGroup" >
+    update sys_group
+    set name = #{name,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      is_show = #{show,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

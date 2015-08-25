@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.smartlight.finance.persistence.GoldTradeMapper" >
+  <resultMap id="BaseResultMap" type="org.smartlight.finance.model.GoldTrade" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="trade_price" property="tradePrice" jdbcType="DOUBLE" />
+    <result column="trade_amount" property="tradeAmount" jdbcType="INTEGER" />
+    <result column="trade_date" property="tradeDate" jdbcType="TIMESTAMP" />
+    <result column="trade_remark" property="tradeRemark" jdbcType="VARCHAR" />
+    <result column="stop_loss_price" property="stopLossPrice" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, trade_price, trade_amount, trade_date, trade_remark, stop_loss_price
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fi_gold_trade
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fi_gold_trade
+    order by trade_date desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fi_gold_trade
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.smartlight.finance.model.GoldTrade" >
+    insert into fi_gold_trade (id, trade_price, trade_amount, 
+      trade_date, trade_remark, stop_loss_price
+      )
+    values (#{id,jdbcType=INTEGER}, #{tradePrice,jdbcType=DOUBLE}, #{tradeAmount,jdbcType=INTEGER}, 
+      #{tradeDate,jdbcType=TIMESTAMP}, #{tradeRemark,jdbcType=VARCHAR}, #{stopLossPrice,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.smartlight.finance.model.GoldTrade" >
+    insert into fi_gold_trade
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tradePrice != null" >
+        trade_price,
+      </if>
+      <if test="tradeMode != null" >
+        trade_mode,
+      </if>
+      <if test="tradeMethod != null" >
+        trade_method,
+      </if>
+      <if test="tradeAmount != null" >
+        trade_amount,
+      </if>
+      <if test="tradeDate != null" >
+        trade_date,
+      </if>
+      <if test="tradeRemark != null" >
+        trade_remark,
+      </if>
+      <if test="stopLossPrice != null" >
+        stop_loss_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tradePrice != null" >
+        #{tradePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="tradeMode != null" >
+        #{tradeMode,jdbcType=INTEGER},
+      </if>
+      <if test="tradeMethod != null" >
+        #{tradeMethod,jdbcType=INTEGER},
+      </if>
+      <if test="tradeAmount != null" >
+        #{tradeAmount,jdbcType=INTEGER},
+      </if>
+      <if test="tradeDate != null" >
+        #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeRemark != null" >
+        #{tradeRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="stopLossPrice != null" >
+        #{stopLossPrice,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.smartlight.finance.model.GoldTrade" >
+    update fi_gold_trade
+    <set >
+      <if test="tradePrice != null" >
+        trade_price = #{tradePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="tradeAmount != null" >
+        trade_amount = #{tradeAmount,jdbcType=INTEGER},
+      </if>
+      <if test="tradeMode != null" >
+        trade_mode = #{tradeMode,jdbcType=INTEGER},
+      </if>
+      <if test="tradeMethod != null" >
+        trade_method = #{tradeMethod,jdbcType=INTEGER},
+      </if>
+      <if test="tradeDate != null" >
+        trade_date = #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeRemark != null" >
+        trade_remark = #{tradeRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="stopLossPrice != null" >
+        stop_loss_price = #{stopLossPrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.smartlight.finance.model.GoldTrade" >
+    update fi_gold_trade
+    set trade_price = #{tradePrice,jdbcType=DOUBLE},
+      trade_amount = #{tradeAmount,jdbcType=INTEGER},
+      trade_mode = #{tradeMode,jdbcType=INTEGER},
+      trade_method = #{tradeMe,jdbcType=INTEGER},
+      trade_date = #{tradeDate,jdbcType=TIMESTAMP},
+      trade_remark = #{tradeRemark,jdbcType=VARCHAR},
+      stop_loss_price = #{stopLossPrice,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

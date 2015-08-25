@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.smartlight.finance.persistence.GoldPriceMapper" >
+  <resultMap id="BaseResultMap" type="org.smartlight.finance.model.GoldPrice" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="descs" property="desc" jdbcType="VARCHAR" />
+    <result column="open" property="open" jdbcType="DOUBLE" />
+    <result column="close" property="close" jdbcType="DOUBLE" />
+    <result column="high" property="high" jdbcType="DOUBLE" />
+    <result column="low" property="low" jdbcType="DOUBLE" />
+    <result column="op_time" property="opTime" jdbcType="TIMESTAMP" />
+    <result column="trade_dept" property="tradeDept" jdbcType="VARCHAR" />
+    <result column="vol_real" property="volReal" jdbcType="INTEGER" />
+    <result column="vol_tick" property="volTick" jdbcType="INTEGER" />
+    <result column="spread" property="spread" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, descs, open, close, high, low, op_time, trade_dept, vol_real, vol_tick, 
+    spread
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fi_gold
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fi_gold
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.smartlight.finance.model.GoldPrice" >
+    insert into fi_gold (name, descs, 
+      open, close, high, low, 
+      op_time, trade_dept, vol_real, 
+      vol_tick, spread)
+    values (#{name,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
+      #{open,jdbcType=DOUBLE}, #{close,jdbcType=DOUBLE}, #{high,jdbcType=DOUBLE}, #{low,jdbcType=DOUBLE}, 
+      #{opTime,jdbcType=TIMESTAMP}, #{tradeDept,jdbcType=VARCHAR}, #{volReal,jdbcType=INTEGER}, 
+      #{volTick,jdbcType=INTEGER}, #{spread,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="org.smartlight.finance.model.GoldPrice" >
+    insert into fi_gold
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="desc != null" >
+        desc,
+      </if>
+      <if test="open != null" >
+        open,
+      </if>
+      <if test="close != null" >
+        close,
+      </if>
+      <if test="high != null" >
+        high,
+      </if>
+      <if test="low != null" >
+        low,
+      </if>
+      <if test="opTime != null" >
+        op_time,
+      </if>
+      <if test="tradeDept != null" >
+        trade_dept,
+      </if>
+      <if test="volReal != null" >
+        vol_real,
+      </if>
+      <if test="volTick != null" >
+        vol_tick,
+      </if>
+      <if test="spread != null" >
+        spread,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="open != null" >
+        #{open,jdbcType=DOUBLE},
+      </if>
+      <if test="close != null" >
+        #{close,jdbcType=DOUBLE},
+      </if>
+      <if test="high != null" >
+        #{high,jdbcType=DOUBLE},
+      </if>
+      <if test="low != null" >
+        #{low,jdbcType=DOUBLE},
+      </if>
+      <if test="opTime != null" >
+        #{opTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeDept != null" >
+        #{tradeDept,jdbcType=VARCHAR},
+      </if>
+      <if test="volReal != null" >
+        #{volReal,jdbcType=INTEGER},
+      </if>
+      <if test="volTick != null" >
+        #{volTick,jdbcType=INTEGER},
+      </if>
+      <if test="spread != null" >
+        #{spread,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.smartlight.finance.model.GoldPrice" >
+    update fi_gold
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        descs = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="open != null" >
+        open = #{open,jdbcType=DOUBLE},
+      </if>
+      <if test="close != null" >
+        close = #{close,jdbcType=DOUBLE},
+      </if>
+      <if test="high != null" >
+        high = #{high,jdbcType=DOUBLE},
+      </if>
+      <if test="low != null" >
+        low = #{low,jdbcType=DOUBLE},
+      </if>
+      <if test="opTime != null" >
+        op_time = #{opTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeDept != null" >
+        trade_dept = #{tradeDept,jdbcType=VARCHAR},
+      </if>
+      <if test="volReal != null" >
+        vol_real = #{volReal,jdbcType=INTEGER},
+      </if>
+      <if test="volTick != null" >
+        vol_tick = #{volTick,jdbcType=INTEGER},
+      </if>
+      <if test="spread != null" >
+        spread = #{spread,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.smartlight.finance.model.GoldPrice" >
+    update fi_gold
+    set name = #{name,jdbcType=VARCHAR},
+      descs = #{desc,jdbcType=VARCHAR},
+      open = #{open,jdbcType=DOUBLE},
+      close = #{close,jdbcType=DOUBLE},
+      high = #{high,jdbcType=DOUBLE},
+      low = #{low,jdbcType=DOUBLE},
+      op_time = #{opTime,jdbcType=TIMESTAMP},
+      trade_dept = #{tradeDept,jdbcType=VARCHAR},
+      vol_real = #{volReal,jdbcType=INTEGER},
+      vol_tick = #{volTick,jdbcType=INTEGER},
+      spread = #{spread,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectRecent" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+     <include refid="Base_Column_List" />
+    from fi_gold limit 10
+  </select>
+</mapper>

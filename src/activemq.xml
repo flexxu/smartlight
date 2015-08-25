@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">	
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath*:/jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+<!--  embedded ActiveMQ Broker --> 	
+  <broker useJmx="false" brokerName="jdbcBroker" xmlns="http://activemq.apache.org/schema/core">
+        <!-- 
+            Examples of destination-specific policies using destination 
+            names or wildcards. For more information, see: 
+            
+            http://activemq.apache.org/per-destination-policies.html
+            http://activemq.apache.org/destination-features.html
+            http://activemq.apache.org/slow-consumer-handling.html
+            http://activemq.apache.org/subscription-recovery-policy.html
+        -->
+        <destinationPolicy>
+            <policyMap>
+                <policyEntries>
+                    <!-- 
+                        Limit ALL queues and topics to using 5mb of memory and turn on producer flow control
+                    -->
+                    <policyEntry queue=">" producerFlowControl="true" memoryLimit="5mb"/>
+                    <policyEntry topic=">" producerFlowControl="true" memoryLimit="5mb">
+                        <dispatchPolicy>
+                            <!-- 
+                              Use total ordering, see:
+                             	http://activemq.apache.org/total-ordering.html
+                            -->
+                            <strictOrderDispatchPolicy/>
+                        </dispatchPolicy>
+                        <subscriptionRecoveryPolicy>
+                            <!-- 
+                                Upon subscription, receive the last image sent 
+                                on the destination. 
+                            -->
+                            <lastImageSubscriptionRecoveryPolicy/>
+                        </subscriptionRecoveryPolicy>
+                    </policyEntry>
+                </policyEntries>
+            </policyMap>
+        </destinationPolicy>
+        
+    <persistenceAdapter>
+       <jdbcPersistenceAdapter dataDirectory="/amq" dataSource="#amq-ds"/> 
+    </persistenceAdapter>
+    
+        <!--  
+            The systemUsage controls the maximum amount of space the broker will 
+            use before slowing down producers. For more information, see: 
+            
+            http://activemq.apache.org/producer-flow-control.html
+        -->
+        <systemUsage>
+          <systemUsage>
+            <memoryUsage>
+              <memoryUsage limit="20 mb" />
+            </memoryUsage>
+            <storeUsage>
+              <storeUsage limit="1 gb" />
+            </storeUsage>
+            <tempUsage>
+              <tempUsage limit="100 mb" />
+            </tempUsage>
+          </systemUsage>
+        </systemUsage>
+        
+        
+       <!-- 
+            The transport connectors expose ActiveMQ over a given protocol to
+            clients and other brokers. For more information, see: 
+            
+            http://activemq.apache.org/configuring-transports.html 
+        -->
+    <transportConnectors>
+            <!-- Create a TCP transport that is advertised on via an IP multicast 
+              group named default. -->
+            <transportConnector name="openwire" uri="tcp://localhost:61616" discoveryUri="multicast://default"/>
+            <!-- Create a SSL transport. Make sure to configure the SSL options
+              via the system properties or the sslContext element. 
+            <transportConnector name="ssl" uri="ssl://localhost:61617"/>-->
+            <!-- Create a STOMP transport for STOMP clients. 
+            <transportConnector name="stomp" uri="stomp://localhost:61613"/>-->
+            <!-- Create a XMPP transport for XMPP clients. 
+            <transportConnector name="xmpp" uri="xmpp://localhost:61222"/>-->
+      <transportConnector name="vm" uri="vm://localhost" />
+    </transportConnectors>
+    
+        <!-- 
+            The network connectors are used to create a network of brokers. For 
+            more information, see: 
+            
+            http://activemq.apache.org/networks-of-brokers.html 
+        -->
+        <!-- networkConnectors-->
+            <!-- 
+                This connector automatically discovers the other brokers using
+                IP multicast. Such discovery is possible only because the 
+                openwire transport connector is advertised via the default IP
+                multicast group. For more information on multicast, see: 
+                
+                http://activemq.apache.org/multicast-transport-reference.html
+
+            <networkConnector name="default-nc" uri="multicast://default"/>
+        -->
+      
+	     <!--  <networkConnector uri="multicast://default"
+	        dynamicOnly="true" 
+	        networkTTL="3" 
+	        prefetchSize="1" 
+	        decreaseNetworkConsumerPriority="true" />-->
+	     <!--  </networkConnectors>      -->
+  </broker>
+  
+  <bean id="amq-ds" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <property name="driverClassName" value="${jdbc.driverClassName}"/>
+    <property name="url" value="${amq.url}"/>
+    <property name="username" value="${amq.username}"/>
+    <property name="password" value="${amq.password}"/>
+    <property name="maxActive" value="200"/>
+    <property name="poolPreparedStatements" value="true"/>
+  </bean>
+</beans>

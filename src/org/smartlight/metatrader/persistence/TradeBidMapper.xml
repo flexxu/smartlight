@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.smartlight.metatrader.persistence.TradeBidMapper" >
+  <resultMap id="BaseResultMap" type="org.smartlight.metatrader.model.TradeBid" >
+    <id column="id" property="id" jdbcType="TINYINT" />
+    <result column="op_type" property="opType" jdbcType="TINYINT" />
+    <result column="op_price" property="opPrice" jdbcType="DOUBLE" />
+    <result column="op_date" property="opDate" jdbcType="TIMESTAMP" />
+    <result column="op_amount" property="opAmount" jdbcType="TINYINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="op_code" property="opCode" jdbcType="VARCHAR" />
+    <result column="op_flag" property="opFlag" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, op_type, op_price, op_date, op_amount, remark, op_code,op_flag
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_bid
+  </select>  
+    <select id="selectOpened" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from mt_bid where op_type=#{opType,jdbcType=TINYINT} and op_flag=0
+  </select> 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_bid
+    where id = #{id,jdbcType=TINYINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Byte" >
+    delete from mt_bid
+    where id = #{id,jdbcType=TINYINT}
+  </delete>
+  <insert id="insert" parameterType="org.smartlight.metatrader.model.TradeBid" >
+    insert into mt_bid (id, op_type, op_price, 
+      op_date, op_amount, remark, 
+      op_code,op_flag)
+    values (#{id,jdbcType=TINYINT}, #{opType,jdbcType=TINYINT}, #{opPrice,jdbcType=DOUBLE}, 
+      #{opDate,jdbcType=TIMESTAMP}, #{opAmount,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
+      #{opCode,jdbcType=VARCHAR}, #{opFlag,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.smartlight.metatrader.model.TradeBid" >
+    insert into mt_bid
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="opType != null" >
+        op_type,
+      </if>
+      <if test="opPrice != null" >
+        op_price,
+      </if>
+      <if test="opDate != null" >
+        op_date,
+      </if>
+      <if test="opAmount != null" >
+        op_amount,
+      </if>
+      <if test="opFlag != null" >
+        op_flag,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="opCode != null" >
+        op_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=TINYINT},
+      </if>
+      <if test="opType != null" >
+        #{opType,jdbcType=TINYINT},
+      </if>
+      <if test="opPrice != null" >
+        #{opPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="opDate != null" >
+        #{opDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opAmount != null" >
+        #{opAmount,jdbcType=TINYINT},
+      </if>
+      <if test="opFlag != null" >
+        #{opFlag,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="opCode != null" >
+        #{opCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.smartlight.metatrader.model.TradeBid" >
+    update mt_bid
+    <set >
+      <if test="opType != null" >
+        op_type = #{opType,jdbcType=TINYINT},
+      </if>
+      <if test="opPrice != null" >
+        op_price = #{opPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="opDate != null" >
+        op_date = #{opDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opAmount != null" >
+        op_amount = #{opAmount,jdbcType=TINYINT},
+      </if>
+      <if test="opFlag != null" >
+        op_flag = #{opFlag,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="opCode != null" >
+        op_code = #{opCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=TINYINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.smartlight.metatrader.model.TradeBid" >
+    update mt_bid
+    set op_type = #{opType,jdbcType=TINYINT},
+      op_price = #{opPrice,jdbcType=DOUBLE},
+      op_date = #{opDate,jdbcType=TIMESTAMP},
+      op_amount = #{opAmount,jdbcType=TINYINT},
+      op_flag = #{opFlag,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      op_code = #{opCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=TINYINT}
+  </update>
+</mapper>

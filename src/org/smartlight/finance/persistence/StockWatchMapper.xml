@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.smartlight.finance.persistence.StockWatchMapper" >
+  <resultMap id="BaseResultMap" type="org.smartlight.finance.model.StockWatch" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stock_name" property="stockName" jdbcType="VARCHAR" />
+    <result column="stock_code" property="stockCode" jdbcType="VARCHAR" />
+    <result column="watchTop" property="watchtop" jdbcType="REAL" />
+    <result column="watchBottom" property="watchbottom" jdbcType="REAL" />
+    <result column="watchInterval" property="watchinterval" jdbcType="TINYINT" />
+    <result column="valid_flag" property="validFlag" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, stock_name, stock_code, watchTop, watchBottom, watchInterval, valid_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fi_stock_watch
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fi_stock_watch
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.smartlight.finance.model.StockWatch" >
+    insert into fi_stock_watch (id, stock_name, stock_code, 
+      watchTop, watchBottom, watchInterval, 
+      valid_flag)
+    values (#{id,jdbcType=INTEGER}, #{stockName,jdbcType=VARCHAR}, #{stockCode,jdbcType=VARCHAR}, 
+      #{watchtop,jdbcType=REAL}, #{watchbottom,jdbcType=REAL}, #{watchinterval,jdbcType=TINYINT}, 
+      #{validFlag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.smartlight.finance.model.StockWatch" >
+    insert into fi_stock_watch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stockName != null" >
+        stock_name,
+      </if>
+      <if test="stockCode != null" >
+        stock_code,
+      </if>
+      <if test="watchtop != null" >
+        watchTop,
+      </if>
+      <if test="watchbottom != null" >
+        watchBottom,
+      </if>
+      <if test="watchinterval != null" >
+        watchInterval,
+      </if>
+      <if test="validFlag != null" >
+        valid_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stockName != null" >
+        #{stockName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCode != null" >
+        #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="watchtop != null" >
+        #{watchtop,jdbcType=REAL},
+      </if>
+      <if test="watchbottom != null" >
+        #{watchbottom,jdbcType=REAL},
+      </if>
+      <if test="watchinterval != null" >
+        #{watchinterval,jdbcType=TINYINT},
+      </if>
+      <if test="validFlag != null" >
+        #{validFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.smartlight.finance.model.StockWatch" >
+    update fi_stock_watch
+    <set >
+      <if test="stockName != null" >
+        stock_name = #{stockName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCode != null" >
+        stock_code = #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="watchtop != null" >
+        watchTop = #{watchtop,jdbcType=REAL},
+      </if>
+      <if test="watchbottom != null" >
+        watchBottom = #{watchbottom,jdbcType=REAL},
+      </if>
+      <if test="watchinterval != null" >
+        watchInterval = #{watchinterval,jdbcType=TINYINT},
+      </if>
+      <if test="validFlag != null" >
+        valid_flag = #{validFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.smartlight.finance.model.StockWatch" >
+    update fi_stock_watch
+    set stock_name = #{stockName,jdbcType=VARCHAR},
+      stock_code = #{stockCode,jdbcType=VARCHAR},
+      watchTop = #{watchtop,jdbcType=REAL},
+      watchBottom = #{watchbottom,jdbcType=REAL},
+      watchInterval = #{watchinterval,jdbcType=TINYINT},
+      valid_flag = #{validFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+      <select id="selectValid" resultMap="BaseResultMap" >
+        select 
+     <include refid="Base_Column_List" />
+    from fi_stock_watch where valid_flag=1
+  </select>
+</mapper>

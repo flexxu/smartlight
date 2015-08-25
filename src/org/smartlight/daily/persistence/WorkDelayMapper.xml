@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.smartlight.daily.persistence.WorkDelayMapper" >
+  <resultMap id="BaseResultMap" type="org.smartlight.daily.model.WorkDelay" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="delay_time" property="delayTime" jdbcType="TIME" />
+    <result column="work_day" property="workDay" jdbcType="DATE" />
+    <result column="delay_remark" property="delayRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, delay_time, work_day, delay_remark
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from daily_delay
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from daily_delay
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from daily_delay
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.smartlight.daily.model.WorkDelay" >
+    insert into daily_delay (id, delay_time, work_day, 
+      delay_remark)
+    values (#{id,jdbcType=INTEGER}, #{delayTime,jdbcType=TIME}, #{workDay,jdbcType=DATE}, 
+      #{delayRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.smartlight.daily.model.WorkDelay" >
+    insert into daily_delay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="delayTime != null" >
+        delay_time,
+      </if>
+      <if test="workDay != null" >
+        work_day,
+      </if>
+      <if test="delayRemark != null" >
+        delay_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="delayTime != null" >
+        #{delayTime,jdbcType=TIME},
+      </if>
+      <if test="workDay != null" >
+        #{workDay,jdbcType=DATE},
+      </if>
+      <if test="delayRemark != null" >
+        #{delayRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.smartlight.daily.model.WorkDelay" >
+    update daily_delay
+    <set >
+      <if test="delayTime != null" >
+        delay_time = #{delayTime,jdbcType=TIME},
+      </if>
+      <if test="workDay != null" >
+        work_day = #{workDay,jdbcType=DATE},
+      </if>
+      <if test="delayRemark != null" >
+        delay_remark = #{delayRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.smartlight.daily.model.WorkDelay" >
+    update daily_delay
+    set delay_time = #{delayTime,jdbcType=TIME},
+      work_day = #{workDay,jdbcType=DATE},
+      delay_remark = #{delayRemark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

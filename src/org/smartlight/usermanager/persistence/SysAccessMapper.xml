@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.smartlight.usermanager.persistence.SysAccessMapper" >
+  <resultMap id="BaseResultMap" type="org.smartlight.usermanager.model.SysAccess" >
+    <result column="role_id" property="roleId" jdbcType="SMALLINT" />
+    <result column="node_id" property="nodeId" jdbcType="SMALLINT" />
+    <result column="level" property="level" jdbcType="TINYINT" />
+    <result column="pid" property="pid" jdbcType="SMALLINT" />
+    <result column="module" property="module" jdbcType="VARCHAR" />
+  </resultMap>
+    <select id="selectByUserId" resultMap="BaseResultMap" >
+    select 
+    a.level, a.name, a.title, a.status, a.sort,a.url,a.target,a.rel
+    from sys_access b,sys_node a,sys_role_user d
+    where b.role_id=d.role_id and a.id=b.node_id and a.group_id=#{pId,jdbcType=INTEGER} and d.user_id = #{userId,jdbcType=INTEGER}
+  </select>  
+  <insert id="insert" parameterType="org.smartlight.usermanager.model.SysAccess" >
+    insert into sys_access (role_id, node_id, level, 
+      pid, module)
+    values (#{roleId,jdbcType=SMALLINT}, #{nodeId,jdbcType=SMALLINT}, #{level,jdbcType=TINYINT}, 
+      #{pid,jdbcType=SMALLINT}, #{module,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.smartlight.usermanager.model.SysAccess" >
+    insert into sys_access
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="nodeId != null" >
+        node_id,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="module != null" >
+        module,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=SMALLINT},
+      </if>
+      <if test="nodeId != null" >
+        #{nodeId,jdbcType=SMALLINT},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=TINYINT},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=SMALLINT},
+      </if>
+      <if test="module != null" >
+        #{module,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+    <delete id="deleteByRole" parameterType="java.lang.Integer" >
+    delete from sys_access
+    where role_id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

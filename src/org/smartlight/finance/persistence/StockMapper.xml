@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.smartlight.finance.persistence.StockMapper" >
+  <resultMap id="BaseResultMap" type="org.smartlight.finance.model.Stock" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stock_name" property="stockName" jdbcType="VARCHAR" />
+    <result column="stock_code" property="stockCode" jdbcType="VARCHAR" />
+    <result column="stock_close" property="stockClose" jdbcType="REAL" />
+    <result column="stock_open" property="stockOpen" jdbcType="REAL" />
+    <result column="stock_high" property="stockHigh" jdbcType="REAL" />
+    <result column="stock_low" property="stockLow" jdbcType="REAL" />
+    <result column="stock_vol" property="stockVol" jdbcType="INTEGER" />
+    <result column="op_time" property="opTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, stock_name, stock_code, stock_close, stock_open, stock_high, stock_low, stock_vol, 
+    op_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fi_stock
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fi_stock
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.smartlight.finance.model.Stock" >
+    insert into fi_stock (id, stock_name, stock_code, 
+      stock_close, stock_open, stock_high, 
+      stock_low, stock_vol, op_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{stockName,jdbcType=VARCHAR}, #{stockCode,jdbcType=VARCHAR}, 
+      #{stockClose,jdbcType=REAL}, #{stockOpen,jdbcType=REAL}, #{stockHigh,jdbcType=REAL}, 
+      #{stockLow,jdbcType=REAL}, #{stockVol,jdbcType=INTEGER}, #{opTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.smartlight.finance.model.Stock" >
+    insert into fi_stock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stockName != null" >
+        stock_name,
+      </if>
+      <if test="stockCode != null" >
+        stock_code,
+      </if>
+      <if test="stockClose != null" >
+        stock_close,
+      </if>
+      <if test="stockOpen != null" >
+        stock_open,
+      </if>
+      <if test="stockHigh != null" >
+        stock_high,
+      </if>
+      <if test="stockLow != null" >
+        stock_low,
+      </if>
+      <if test="stockVol != null" >
+        stock_vol,
+      </if>
+      <if test="opTime != null" >
+        op_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stockName != null" >
+        #{stockName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCode != null" >
+        #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stockClose != null" >
+        #{stockClose,jdbcType=REAL},
+      </if>
+      <if test="stockOpen != null" >
+        #{stockOpen,jdbcType=REAL},
+      </if>
+      <if test="stockHigh != null" >
+        #{stockHigh,jdbcType=REAL},
+      </if>
+      <if test="stockLow != null" >
+        #{stockLow,jdbcType=REAL},
+      </if>
+      <if test="stockVol != null" >
+        #{stockVol,jdbcType=INTEGER},
+      </if>
+      <if test="opTime != null" >
+        #{opTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.smartlight.finance.model.Stock" >
+    update fi_stock
+    <set >
+      <if test="stockName != null" >
+        stock_name = #{stockName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCode != null" >
+        stock_code = #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stockClose != null" >
+        stock_close = #{stockClose,jdbcType=REAL},
+      </if>
+      <if test="stockOpen != null" >
+        stock_open = #{stockOpen,jdbcType=REAL},
+      </if>
+      <if test="stockHigh != null" >
+        stock_high = #{stockHigh,jdbcType=REAL},
+      </if>
+      <if test="stockLow != null" >
+        stock_low = #{stockLow,jdbcType=REAL},
+      </if>
+      <if test="stockVol != null" >
+        stock_vol = #{stockVol,jdbcType=INTEGER},
+      </if>
+      <if test="opTime != null" >
+        op_time = #{opTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.smartlight.finance.model.Stock" >
+    update fi_stock
+    set stock_name = #{stockName,jdbcType=VARCHAR},
+      stock_code = #{stockCode,jdbcType=VARCHAR},
+      stock_close = #{stockClose,jdbcType=REAL},
+      stock_open = #{stockOpen,jdbcType=REAL},
+      stock_high = #{stockHigh,jdbcType=REAL},
+      stock_low = #{stockLow,jdbcType=REAL},
+      stock_vol = #{stockVol,jdbcType=INTEGER},
+      op_time = #{opTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

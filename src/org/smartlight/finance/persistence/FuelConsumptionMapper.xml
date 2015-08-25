@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.smartlight.finance.persistence.FuelConsumptionMapper" >
+  <resultMap id="BaseResultMap" type="org.smartlight.finance.model.FuelConsumption" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fuel_amount" property="fuelAmount" jdbcType="DOUBLE" />
+    <result column="fuel_price" property="fuelPrice" jdbcType="DOUBLE" />
+    <result column="total_cost" property="totalCost" jdbcType="DOUBLE" />
+    <result column="op_date" property="opDate" jdbcType="TIMESTAMP" />
+    <result column="speedometer_reading" property="speedometerReading" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, fuel_amount, fuel_price, total_cost, op_date, speedometer_reading
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fi_fuel_consumption
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from fi_fuel_consumption
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fi_fuel_consumption
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.smartlight.finance.model.FuelConsumption" >
+    insert into fi_fuel_consumption (id, fuel_amount, fuel_price, 
+      total_cost, op_date, speedometer_reading
+      )
+    values (#{id,jdbcType=INTEGER}, #{fuelAmount,jdbcType=DOUBLE}, #{fuelPrice,jdbcType=DOUBLE}, 
+      #{totalCost,jdbcType=DOUBLE}, #{opDate,jdbcType=TIMESTAMP}, #{speedometerReading,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.smartlight.finance.model.FuelConsumption" >
+    insert into fi_fuel_consumption
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fuelAmount != null" >
+        fuel_amount,
+      </if>
+      <if test="fuelPrice != null" >
+        fuel_price,
+      </if>
+      <if test="totalCost != null" >
+        total_cost,
+      </if>
+      <if test="opDate != null" >
+        op_date,
+      </if>
+      <if test="speedometerReading != null" >
+        speedometer_reading,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fuelAmount != null" >
+        #{fuelAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="fuelPrice != null" >
+        #{fuelPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="totalCost != null" >
+        #{totalCost,jdbcType=DOUBLE},
+      </if>
+      <if test="opDate != null" >
+        #{opDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="speedometerReading != null" >
+        #{speedometerReading,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.smartlight.finance.model.FuelConsumption" >
+    update fi_fuel_consumption
+    <set >
+      <if test="fuelAmount != null" >
+        fuel_amount = #{fuelAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="fuelPrice != null" >
+        fuel_price = #{fuelPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="totalCost != null" >
+        total_cost = #{totalCost,jdbcType=DOUBLE},
+      </if>
+      <if test="opDate != null" >
+        op_date = #{opDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="speedometerReading != null" >
+        speedometer_reading = #{speedometerReading,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.smartlight.finance.model.FuelConsumption" >
+    update fi_fuel_consumption
+    set fuel_amount = #{fuelAmount,jdbcType=DOUBLE},
+      fuel_price = #{fuelPrice,jdbcType=DOUBLE},
+      total_cost = #{totalCost,jdbcType=DOUBLE},
+      op_date = #{opDate,jdbcType=TIMESTAMP},
+      speedometer_reading = #{speedometerReading,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
