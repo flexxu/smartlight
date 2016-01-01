@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.smartlight.finance.persistence.FuturesMapper" >
+  <resultMap id="BaseResultMap" type="org.smartlight.finance.model.Futures" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="futures_name" property="name" jdbcType="VARCHAR" />
+    <result column="futures_code" property="code" jdbcType="VARCHAR" />
+    <result column="futures_close" property="close" jdbcType="REAL" />
+    <result column="futures_open" property="open" jdbcType="REAL" />
+    <result column="futures_high" property="high" jdbcType="REAL" />
+    <result column="futures_low" property="low" jdbcType="REAL" />
+    <result column="futures_vol" property="vol" jdbcType="INTEGER" />
+    <result column="op_time" property="opTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, futures_name, futures_code, futures_close, futures_open, futures_high, futures_low, futures_vol, 
+    op_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fi_futures
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fi_futures order by op_time desc
+  </select>
+  <select id="selectCloseList" resultType="java.lang.Double">
+    select futures_close
+    from fi_futures order by op_time
+  </select>
+  <select id="selectLastest" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select top 2 
+    <include refid="Base_Column_List" />
+    from fi_futures
+    where futures_code = #{code,jdbcType=VARCHAR} order by op_time desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fi_futures
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.smartlight.finance.model.Futures" >
+    insert into fi_futures (id, futures_name, futures_code, 
+      futures_close, futures_open, futures_high, 
+      futures_low, futures_vol, op_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{close,jdbcType=REAL}, #{open,jdbcType=REAL}, #{high,jdbcType=REAL}, 
+      #{low,jdbcType=REAL}, #{vol,jdbcType=INTEGER}, #{opTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.smartlight.finance.model.Futures" >
+    insert into fi_futures
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        futures_name,
+      </if>
+      <if test="code != null" >
+        futures_code,
+      </if>
+      <if test="close != null" >
+        futures_close,
+      </if>
+      <if test="open != null" >
+        futures_open,
+      </if>
+      <if test="high != null" >
+        futures_high,
+      </if>
+      <if test="low != null" >
+        futures_low,
+      </if>
+      <if test="vol != null" >
+        futures_vol,
+      </if>
+      <if test="opTime != null" >
+        op_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="close != null" >
+        #{close,jdbcType=REAL},
+      </if>
+      <if test="open != null" >
+        #{open,jdbcType=REAL},
+      </if>
+      <if test="high != null" >
+        #{high,jdbcType=REAL},
+      </if>
+      <if test="low != null" >
+        #{low,jdbcType=REAL},
+      </if>
+      <if test="vol != null" >
+        #{vol,jdbcType=INTEGER},
+      </if>
+      <if test="opTime != null" >
+        #{opTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.smartlight.finance.model.Futures" >
+    update fi_futures
+    <set >
+      <if test="name != null" >
+        futures_name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        futures_code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="close != null" >
+        futures_close = #{close,jdbcType=REAL},
+      </if>
+      <if test="open != null" >
+        futures_open = #{open,jdbcType=REAL},
+      </if>
+      <if test="high != null" >
+        futures_high = #{high,jdbcType=REAL},
+      </if>
+      <if test="low != null" >
+        futures_low = #{low,jdbcType=REAL},
+      </if>
+      <if test="vol != null" >
+        futures_vol = #{vol,jdbcType=INTEGER},
+      </if>
+      <if test="opTime != null" >
+        op_time = #{opTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.smartlight.finance.model.Futures" >
+    update fi_futures
+    set futures_name = #{name,jdbcType=VARCHAR},
+      futures_code = #{code,jdbcType=VARCHAR},
+      futures_close = #{close,jdbcType=REAL},
+      futures_open = #{open,jdbcType=REAL},
+      futures_high = #{high,jdbcType=REAL},
+      futures_low = #{low,jdbcType=REAL},
+      futures_vol = #{vol,jdbcType=INTEGER},
+      op_time = #{opTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

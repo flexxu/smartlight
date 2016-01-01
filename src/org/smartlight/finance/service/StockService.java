@@ -3,6 +3,7 @@ package org.smartlight.finance.service;
 import java.text.ParseException;
 import java.util.List;
 
+import org.smartlight.finance.model.Futures;
 import org.smartlight.finance.model.GoldPrice;
 import org.smartlight.finance.model.Stock;
 import org.smartlight.framework.sys.business.BusinessObjectServiceMgr;

@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import org.smartlight.common.util.FileUtils;
 import org.smartlight.common.util.HttpClient;
+import org.smartlight.finance.model.Futures;
 import org.smartlight.finance.model.GoldPrice;
 import org.smartlight.finance.model.Stock;
 import org.smartlight.finance.persistence.GoldPriceMapper;
@@ -24,6 +25,8 @@ import org.smartlight.framework.sys.business.AbstractBusinessObjectServiceMgr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.google.gson.JsonNull;
 
 @Transactional(rollbackFor = Exception.class)
 @Service("stockService")
@@ -94,5 +97,4 @@ public class StockServiceImpl extends AbstractBusinessObjectServiceMgr
 	//	messageHelper.sendMail(mailMessage);
 		return 0;
 	}
-	
 }

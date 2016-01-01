@@ -1,29 +1,13 @@
 package org.smartlight.finance.service.impl;
 
-import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.smartlight.common.util.FileUtils;
-import org.smartlight.common.util.HttpClient;
-import org.smartlight.finance.model.GoldPrice;
-import org.smartlight.finance.model.GoldTrade;
 import org.smartlight.finance.model.Stock;
 import org.smartlight.finance.model.StockWatch;
-import org.smartlight.finance.persistence.GoldPriceMapper;
-import org.smartlight.finance.persistence.GoldTradeMapper;
 import org.smartlight.finance.persistence.StockWatchMapper;
-import org.smartlight.finance.service.GoldTradeService;
 import org.smartlight.finance.service.StockService;
 import org.smartlight.finance.service.StockWatchService;
-import org.smartlight.framework.jms.JmsTemplateMail;
-import org.smartlight.framework.jms.MailMessage;
-import org.smartlight.framework.jms.MessageHelper;
+
 import org.smartlight.framework.sys.business.AbstractBusinessObjectServiceMgr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,7 +58,7 @@ public class StockWatchServiceImpl extends AbstractBusinessObjectServiceMgr
 				stockService.notifyMail(po.getStockCode()+"发出卖出信号："+po.getWatchbottom(), po.getStockCode()+"发出卖出信号："+po.getWatchbottom());
 			}
 		}
-	}
+	} 
 	
 
 	
